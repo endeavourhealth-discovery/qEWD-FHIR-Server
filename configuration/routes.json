@@ -1,0 +1,108 @@
+[
+  {
+    "uri": "/api/loadschemas",
+    "method": "POST",
+    "handler": "load",
+    "on_microservice": "localdb_service",
+    "authenticate": false
+  },
+  {
+    "uri": "/localdbsearch",
+    "method": "GET",
+    "handler": "search",
+    "on_microservice": "localdb_service",
+    "authenticate":false,
+    "from_microservices":[
+         "search_service"
+    ]
+  },
+  {
+    "uri": "/fhirpost",
+    "method": "POST",
+    "handler": "post",
+    "on_microservice": "localdb_service",
+    "authenticate":false,
+    "from_microservices":[
+         "validator_service"
+    ]
+  },
+  {
+    "uri": "/fhirput",
+    "method": "PUT",
+    "handler": "put",
+    "authenticate":false,
+    "on_microservice": "localdb_service",
+    "from_microservices":[
+         "validator_service"
+    ]
+  },
+  {
+    "uri": "/fhirpatch",
+    "method": "PATCH",
+    "handler": "patch",
+    "authenticate":false,
+    "on_microservice": "localdb_service",
+    "from_microservices":[
+         "validator_service"
+    ]
+  },
+  {
+    "uri":"/fhirsearch",
+    "method":"POST",
+    "handler":"search",
+    "on_microservice":"search_service",
+    "authenticate":false,
+    "from_microservices":[
+         "validator_service"
+    ]
+  },
+  {
+  	"uri": "/fhir/STU3/:resource/:id",
+  	"method": "GET",
+  	"handler": "read",
+    "on_microservice": "localdb_service",
+  	"authenticate": false
+  },
+  {
+  	"uri": "/fhir/gfind",
+  	"method": "GET",
+  	"handler": "gfind",
+    "on_microservice": "localdb_service",
+  	"authenticate": false
+  },
+  {
+  	"uri": "/fhir/kill/:resource/:id",
+  	"method": "GET",
+  	"handler": "kill",
+    "on_microservice": "localdb_service",
+  	"authenticate": false
+  },
+  {
+  	"uri": "/fhir/STU3/Patient/:id/$everything",
+  	"method": "GET",
+  	"handler": "everything",
+    "on_microservice": "localdb_service",
+  	"authenticate": false
+  },
+  {
+    "uri": "/fhir/STU3/:resource",
+    "method": "GET",
+    "handler": "validator",
+    "on_microservice": "validator_service",
+    "authenticate": false
+  },
+  {
+    "uri": "/fhir/STU3/:resource",
+    "method": "POST",
+    "handler": "validator",
+    "on_microservice": "validator_service",
+    "authenticate": false
+  },
+  {
+    "uri": "/fhir/STU3/:resource/:id",
+    "method": "PUT",
+    "handler": "validator",
+    "on_microservice": "validator_service",
+    "authenticate": false
+  }
+]

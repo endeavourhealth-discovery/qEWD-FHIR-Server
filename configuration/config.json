@@ -1,0 +1,31 @@
+{
+  "qewd_up": true,
+  "microservices": [
+    {
+      "name": "validator_service",
+      "qewd": {
+        "serverName": "Validator MicroService"
+      }
+    },
+    {
+      "name": "search_service",
+      "qewd": {
+        "serverName": "Search MicroService"
+      }
+    },
+    {
+      "name": "localdb_service",
+      "qewd": {
+        "serverName": "LocalDB MicroService"
+      }
+    }
+  ],
+  "orchestrator": {
+      "qewd": {
+        "bodyParser": "body-parser"
+      }
+    },
+  "jwt": {
+    "secret": "e38bed0f-0b35-479d-8c71-79e61ba78577"
+  }
+}

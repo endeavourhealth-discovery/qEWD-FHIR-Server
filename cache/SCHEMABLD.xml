@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.1 (Build 801_3_18281U)" ts="2019-05-07 15:13:52">
+<Routine name="SCHEMABLD" type="MAC" languagemode="0" timestamp="65140,40172.800037"><![CDATA[
+SCHEMABLD	;
+	; read all the schemas
+	;
+	
+	
+	Kill ^schema
+	
+	d $system.Process.SetZEOF(1)
+	s tStatement = ##class(%SQL.Statement).%New()
+	s tSC=tStatement.%PrepareClassQuery("%Library.File","FileSet")
+	s rs=tStatement.%Execute("C:\TEMP\svn\db_docker\r\standard\STU3\schema","*.json",,1)
+	
+	while rs.%Next() {
+		s tFile=rs.%Get("Name")
+		s json=""
+		
+		K ^||TJSON
+		o tFile:"R"
+		for {
+			u tFile
+			r tStr
+			q:$zeof
+			d JSON(tStr)
+			s json=json_tStr
+		}
+		c tFile
+		
+		k out
+		Do DECODE^VPRJSON($NAME(json),$NAME(out),$NAME(err))
+			
+		s node=$p(tFile,"\",$l(tFile,"\"))
+		m ^schema(node)=out
+	}
+
+	QUIT
+	
+JSON(pJSON)
+	S i=$i(^||TJSON)
+	S ^||TJSON(i)=pJSON
+	QUIT
+	
+EXPORT ; Cache export
+	d $system.Process.SetZEOF(1)
+	S F="C:\TEMP\schema.glb"
+	C F
+	O F:"WNS"
+	S A="^schema"
+	F  S A=$Q(@A) Q:A=""  D
+	.S REC=@A
+	.S REC=$REPLACE(REC,$C(10),"")
+	.;B:REC["Latex allergy"
+	.S REC=$REPLACE(REC,"""","")
+	.U F W "S ",A,"=","""",REC,"""",!
+	.Q
+	C F
+	QUIT
+	
+	; Export ^SynFHIR.Schema
+	; Use ^SynFHIR.Schema instead of ^INDX
+EXPORTSYNFHIR
+	NEW A
+	KILL ^SYNSCHEMA
+	MERGE ^SYNSCHEMA=^SynFHIR.Schema
+	
+	S F="C:\TEMP\SYNSCHEMA.glb"
+	C F
+	O F:"WNS"
+	
+	S A="^SYNSCHEMA"
+	F  S A=$Q(@A) Q:A=""  D
+	.S REC=@A
+	.I $LISTVALID(REC) S REC=$LISTTOSTRING(REC,"~")
+	.USE F write "S ",A,"=","""",$E(REC,1,4000),"""",!
+	.Q
+	CLOSE F
+	
+	QUIT
+]]></Routine>
+</Export>
