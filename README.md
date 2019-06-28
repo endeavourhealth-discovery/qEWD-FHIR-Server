@@ -32,7 +32,8 @@ docker exec -it localdb_service bash
 
 To import ^SYNSCHEMA into yotta:
 copy /schema/SYNSCHEMA.glb to a docker mapped folder - then run:
-D ^IMPORT("/root/.yottadb/r/SYNSCHEMA.glb")
+
+Do ^IMPORT("/root/.yottadb/r/SYNSCHEMA.glb")
 
 Example queries:
 
