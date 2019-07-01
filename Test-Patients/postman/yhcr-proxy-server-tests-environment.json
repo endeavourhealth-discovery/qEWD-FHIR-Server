@@ -1,0 +1,61 @@
+{
+	"id": "5d00fdee-5fc2-4631-b774-c41722a2f66a",
+	"name": "YHCR-FHIR-PROXY-SERVERS",
+	"values": [
+		{
+			"key": "proxy_server_address",
+			"value": "http://127.0.0.1:8080",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "base_fhir_path",
+			"value": "/fhir/STU3",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "target_test_patient_id",
+			"value": "",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "firstPageResourceIds",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "last_page",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "next_page",
+			"value": "",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "nextPageResourceIds",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "lastTestNHSNumber",
+			"value": "9999999901",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "resource_url",
+			"value": "",
+			"type": "text",
+			"description": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-04-01T13:59:31.134Z",
+	"_postman_exported_using": "Postman/7.0.6"
+}

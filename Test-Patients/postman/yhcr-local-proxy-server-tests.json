@@ -1,0 +1,3562 @@
+{
+	"info": {
+		"_postman_id": "0e7c7dfb-389a-4b36-8ae7-968c031ef20e",
+		"name": "yhcr-local-proxy-server-tests",
+		"description": "This collection tests the minimally required API functionality of each local YHCR proxy server during the pilot phase of the programme. \n\nIt is hoped that the tests can be used as a specification for the absolute minimum level of functionality required for development teams building their own FHIR proxy server in accordance with maturity levels 0/1 as proposed in \"YHCR Design Paper 003 Conceptual Design for a FHIR Proxy Server v1.1\"",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Can Search for test patient records using NHS Number",
+			"item": [
+				{
+					"name": "Can Search for Test Patient 9657702070",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702070 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702070\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702070 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, ALIZADEH, MUZNA, 19-Jul-1938, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"ALIZADEH\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"MUZNA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1983-07-19\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									"//Set the test patient id environment variable...",
+									"var jsonData = pm.response.json();",
+									"var entry = jsonData.entry[0].resource; ",
+									"pm.environment.set(\"target_test_patient_id\", entry.id);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702100",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702100 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702100 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702100 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702100 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702100 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702100 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702100\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702100 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, AZZOPARDI, MATTHIA, 27-Feb-1986, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"AZZOPARDI\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"MATTHIA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1986-02-27\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702100",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702151",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702151 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702151 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702151 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702151 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702151 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702151 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702151\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702151 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Ms, CARTY, LORI, 01-May-1983, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"CARTY\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"LORI\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1983-05-01\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702151",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702151"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702437",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702437 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702437 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702437 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702437 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702437 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702437 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702437\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702437 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Miss, HISLOP, DEBRA, 02-Apr-1992, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"HISLOP\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"DEBRA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1992-04-02\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702437",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702437"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702402",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702402 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702402 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702402 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702402 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702402 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702402 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702402\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702402 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Ms, HUXLEY, ALISON, 23-Jul-1986, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"HUXLEY\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"ALISON\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1986-07-23\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702402",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702402"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702240",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702240 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702240 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702240 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702240 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702240 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702240 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702240\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702240 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, LOPEZ, LISA, 1980-11-29, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"LOPEZ\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"LISA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1980-11-29\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702240",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702291",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702291 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702291 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702291 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702291 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702291 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702291 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702291\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702291 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, MANTON, HEIDI, 29-Apr-1985, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"MANTON\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"HEIDI\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1985-04-29\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702291",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702291"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702496",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702496 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702496 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702496 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702496 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702496 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702496 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702496\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702496 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mr, MOXEY, JIM, 25-Aug-1985, M",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"MOXEY\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"JIM\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1985-08-25\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"male\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702496",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702496"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702127",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702127 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702127 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702127 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702127 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702127 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702127 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702127\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702127 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mr, TUTEJA, SARWAR, 19-Oct-1983, M",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"TUTEJA\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"SARWAR\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1983-10-19\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"male\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702127",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702127"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702143",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702143 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702143 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702143 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702143 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702143 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Test Patient 9657702143 - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702143\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Test Patient 9657702143 - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, WYNNE, MONICA, 16-Sep-1999, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"WYNNE\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"MONICA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1999-09-16\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702143",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702143"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute an ?identifier search.\n\nIt is essential that a consistent set of test patient records is available across the region. Each site is required to create and surface each of the test records (either by populating a local FHIR document store OR via a SQL query to an upstream test EPR system). This will enable concepts such as linkage, aggregation and de-duplication to be proven. \n\nPlease note that all subsequent tests are run against this patient data set.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a31f1f5-decc-4abd-b85b-916c5fb2a85c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "334fa65c-04d6-4668-b0f3-15cdcc626b08",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can Patient searches _include the referenced Primary Care resources",
+			"item": [
+				{
+					"name": "Can Search for Test Patient 9657702070 and Include Patient's General Practitioner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total + 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length === Bundle.total + 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total + 1);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Test Patient 9657702070 - Patient Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: A Practitioner Resource is at the second index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[1] is a Practitioner FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Practitioner\");",
+									"});",
+									"//Expectation: Practitioner Resource bundle entry search mode === include...",
+									"pm.test(\"Test Patient 9657702070 - Practitioner Resource bundle entry mode === 'include'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1];",
+									"    pm.expect(entry.search.mode).to.eql(\"include\")",
+									"});",
+									"//Expectation: Practitioner Resource logical ID is exactly equal to that referenced by Patient Resource...",
+									"pm.test(\"Test Patient 9657702070 - Practitioner Resource logical ID is exactly equal to that referenced by Patient Resource\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var patient = jsonData.entry[0].resource;",
+									"    var patientPractitionerReference = patient.generalPractitioner[0].reference;",
+									"    var practitioner = jsonData.entry[1].resource;",
+									"    var practitionerId = 'Practitioner/' + practitioner.id;",
+									"    ",
+									"    pm.expect(practitionerId).to.eql(patientPractitionerReference);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070&_include=Patient:general-Practitioner",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								},
+								{
+									"key": "_include",
+									"value": "Patient:general-Practitioner"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702070 and Include Patient's Managing Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total + 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length === Bundle.total + 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total + 1);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Test Patient 9657702070 - Patient Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: An Organization Resource is at the second index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[1] is an Organization FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Organization\");",
+									"});",
+									"//Expectation: Organization Resource bundle entry search mode === include...",
+									"pm.test(\"Test Patient 9657702070 - Organization Resource bundle entry mode === 'include'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1];",
+									"    pm.expect(entry.search.mode).to.eql(\"include\")",
+									"});",
+									"//Expectation: Organization Resource logical ID is exactly equal to that referenced by Patient Resource...",
+									"pm.test(\"Test Patient 9657702070 - Organization Resource logical ID is exactly equal to that referenced by Patient Resource\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var patient = jsonData.entry[0].resource;",
+									"    var patientOrganizationReference = patient.managingOrganization.reference;",
+									"    var organization = jsonData.entry[1].resource;",
+									"    var organizationId = 'Organization/' + organization.id;",
+									"    ",
+									"    pm.expect(organizationId).to.eql(patientOrganizationReference);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070&_include=Patient:Organization",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								},
+								{
+									"key": "_include",
+									"value": "Patient:Organization"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can Search for Test Patient 9657702070 and Include both Patient's Managing Organization and General Practitioner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total + 2",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length === Bundle.total + 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total + 2);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Test Patient 9657702070 - Patient Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: A Practitioner Resource is at the second index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[1] is a Practitioner FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Practitioner\");",
+									"});",
+									"//Expectation: Practitioner Resource bundle entry search mode === include...",
+									"pm.test(\"Test Patient 9657702070 - Practitioner Resource bundle entry mode === 'include'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[1];",
+									"    pm.expect(entry.search.mode).to.eql(\"include\")",
+									"});",
+									"//Expectation: Practitioner Resource logical ID is exactly equal to that referenced by Patient Resource...",
+									"pm.test(\"Test Patient 9657702070 - Practitioner Resource logical ID is exactly equal to that referenced by Patient Resource\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var patient = jsonData.entry[0].resource;",
+									"    var patientPractitionerReference = patient.generalPractitioner[0].reference;",
+									"    var practitioner = jsonData.entry[1].resource;",
+									"    var practitionerId = 'Practitioner/' + practitioner.id;",
+									"    ",
+									"    pm.expect(practitionerId).to.eql(patientPractitionerReference);",
+									"});",
+									"",
+									"//Expectation: An Organization Resource is at the third index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[2] is an Organization FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[2].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Organization\");",
+									"});",
+									"//Expectation: Organization Resource bundle entry search mode === include...",
+									"pm.test(\"Test Patient 9657702070 - Organization Resource bundle entry mode === 'include'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[2];",
+									"    pm.expect(entry.search.mode).to.eql(\"include\")",
+									"});",
+									"//Expectation: Organization Resource logical ID is exactly equal to that referenced by Patient Resource...",
+									"pm.test(\"Test Patient 9657702070 - Organization Resource logical ID is exactly equal to that referenced by Patient Resource\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var patient = jsonData.entry[0].resource;",
+									"    var patientOrganizationReference = patient.managingOrganization.reference;",
+									"    var organization = jsonData.entry[2].resource;",
+									"    var organizationId = 'Organization/' + organization.id;",
+									"    ",
+									"    pm.expect(organizationId).to.eql(patientOrganizationReference);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070&_include=Patient:Organization&_include=Patient:general-Practitioner",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								},
+								{
+									"key": "_include",
+									"value": "Patient:Organization"
+								},
+								{
+									"key": "_include",
+									"value": "Patient:general-Practitioner"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute an ?identifier search and also observe the _include FHIR Search Parameter Result Type (https://www.hl7.org/fhir/search.html#include)\n\nBefore execution, please ensure the following Practitioner and Organization resources exist in the local proxy:\n\n{\"resourceType\":\"Practitioner\",\"id\":\"203529\",\"identifier\":[{\"system\":\"https://fhir.nhs.uk/Id/sds-user-id\",\"value\":\"G8999998\"}],\"name\":[{\"family\":\"Gilbert\",\"given\":[\"Nichole\"],\"prefix\":[\"Dr.\"]}],\"telecom\":[{\"system\":\"email\",\"value\":\"drgibbert@nhs.skynet\",\"use\":\"work\"},{\"system\":\"phone\",\"value\":\"0115 9737320\",\"use\":\"work\"}],\"address\":[{\"line\":[\"Regent Street\",\"Long Eaton\"],\"city\":\"Nottingham\",\"district\":\"Derbyshire\",\"postalCode\":\"NG10 1QQ\"}],\"gender\":\"female\"}\n\n\n{\"resourceType\":\"Organization\",\"id\":\"200268\",\"identifier\":[{\"system\":\"https://fhir.nhs.uk/Id/ods-organization-code\",\"value\":\"A20047\"}],\"active\":false,\"name\":\"HSCIC test Practice\",\"telecom\":[{\"system\":\"phone\",\"use\":\"work\"}],\"address\":[{\"use\":\"work\"}]}\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a31f1f5-decc-4abd-b85b-916c5fb2a85c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "334fa65c-04d6-4668-b0f3-15cdcc626b08",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can Patient searches _revInclude Encounters",
+			"item": [
+				{
+					"name": "Can Search for Test Patient 9657702070 and Rev Include Patient's Encounters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 1\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is greater than 1 (collection size should include more than just the patient)",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length > 1\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.be.above(1);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Test Patient 9657702070 - Patient Resource bundle entry mode === 'match'\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry[0] is a Patient FHIR Resource\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: There are more than 1 encounters referencing this patient...",
+									"pm.test(\"Test Patient 9657702070 - There are more than 1 Encounter resources referencing the given patient\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var counter = 0;",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        if (entry.resource.resourceType === 'Encounter') counter++;",
+									"    });",
+									"    pm.expect(counter).to.be.above(0);",
+									"});",
+									"//Expectation: Each encounter correctly references the given patient...",
+									"pm.test(\"Test Patient 9657702070 - Each Encounter resource correctly references the given patient\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var patientReference = 'Patient/' + pm.environment.get(\"target_test_patient_id\"); ",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        if (entry.resource.resourceType === 'Encounter') {",
+									"            var encounter = entry.resource;",
+									"            pm.expect(encounter.subject.reference).to.eql(patientReference);",
+									"        }",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070&_revinclude=Encounter:patient",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								},
+								{
+									"key": "_revinclude",
+									"value": "Encounter:patient"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute an ?identifier search and also observe the _revInclude FHIR Search Parameter Result Type (https://www.hl7.org/fhir/search.html#include)\n\nBefore execution, please ensure the following Encounter resources exist in the local proxy:\n\n{\"resourceType\":\"Encounter\",\"identifier\":[{\"system\":\"https://tools.ietf.org/html/rfc4122\",\"value\":\"31a947f6-b124-4137-b272-773ddffe9fb4\"}],\"status\":\"finished\",\"class\":{\"system\":\"http://hl7.org/fhir/v3/ActCode\",\"code\":\"AMB\",\"display\":\"ambulatory\"},\"type\":[{\"coding\":[{\"system\":\"https://www.datadictionary.nhs.uk\",\"code\":\"1\",\"display\":\"First attendance face to face\"}]}],\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"participant\":[{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"PART\",\"display\":\"Participation\"}]}],\"individual\":{\"reference\":\"Practitioner/203531\",\"display\":\"Mrs N Bryant\"}},{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"ATND\",\"display\":\"attender\"}]}],\"individual\":{\"reference\":\"Practitioner/203530\",\"display\":\"Dr Doris MacKay\"}}],\"period\":{\"start\":\"2017-05-01T09:00:00+00:00\",\"end\":\"2017-05-01T10:00:00+00:00\"}}\n\n\n{\"resourceType\":\"Encounter\",\"identifier\":[{\"system\":\"https://tools.ietf.org/html/rfc4122\",\"value\":\"31a947f6-b124-4137-b272-773ddffe9fb4\"}],\"status\":\"finished\",\"class\":{\"system\":\"http://hl7.org/fhir/v3/ActCode\",\"code\":\"EMER\",\"display\":\"emergency\"},\"type\":[{\"coding\":[{\"system\":\"https://www.datadictionary.nhs.uk\",\"code\":\"1\",\"display\":\"First attendance face to face\"}]}],\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"participant\":[{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"PART\",\"display\":\"Participation\"}]}],\"individual\":{\"reference\":\"Practitioner/203531\",\"display\":\"Mrs N Bryant\"}},{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"ATND\",\"display\":\"attender\"}]}],\"individual\":{\"reference\":\"Practitioner/203530\",\"display\":\"Dr Doris MacKay\"}}],\"period\":{\"start\":\"2019-03-01T09:00:00+00:00\",\"end\":\"2019-03-01T10:00:00+00:00\"}}\n\n\n{\"resourceType\":\"Encounter\",\"identifier\":[{\"system\":\"https://tools.ietf.org/html/rfc4122\",\"value\":\"31a947f6-b124-4137-b272-773ddffe9fb4\"}],\"status\":\"finished\",\"class\":{\"system\":\"http://hl7.org/fhir/v3/ActCode\",\"code\":\"IMP\",\"display\":\"inpatient\"},\"type\":[{\"coding\":[{\"system\":\"https://www.datadictionary.nhs.uk\",\"code\":\"1\",\"display\":\"First attendance face to face\"}]}],\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"participant\":[{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"PART\",\"display\":\"Participation\"}]}],\"individual\":{\"reference\":\"Practitioner/203531\",\"display\":\"Mrs N Bryant\"}},{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"ATND\",\"display\":\"attender\"}]}],\"individual\":{\"reference\":\"Practitioner/203530\",\"display\":\"Dr Doris MacKay\"}}],\"period\":{\"start\":\"2019-03-02T09:00:00+00:00\",\"end\":\"2019-03-03T10:00:00+00:00\"}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a31f1f5-decc-4abd-b85b-916c5fb2a85c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "334fa65c-04d6-4668-b0f3-15cdcc626b08",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can return a specific Encounter resources for a given class and patient identifier",
+			"item": [
+				{
+					"name": "Can return Encounter resources where class = EMER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4597687c-8751-43fc-98c4-6b8c805728af",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return Encounter resources where class = EMER - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return Encounter resources where class = EMER - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 2",
+									"pm.test(\"Can return Encounter resources where class = EMERl - Bundle total is exactly 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(2);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total...",
+									"pm.test(\"Can return Encounter resources where class = EMER\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Can return Encounter resources where class = EMER - Encounter Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Can return Encounter resources where class = EMER - Bundle entry[0] is an Encounter FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Encounter\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json;"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8;"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?patient=Patient/{{target_test_patient_id}}&class=EMER",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Encounter"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/{{target_test_patient_id}}"
+								},
+								{
+									"key": "class",
+									"value": "EMER"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Is the _tag element observed by searches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/fhir+json;",
+										"type": "text"
+									},
+									{
+										"key": "content-type",
+										"value": "application/fhir+json;charset=utf8;",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+									"host": [
+										"{{proxy_server_address}}{{base_fhir_path}}"
+									],
+									"path": [
+										"Encounter"
+									],
+									"query": [
+										{
+											"key": "_tag",
+											"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2019 14:29:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "ACCESS-CONTROL-ALLOW-CREDENTIALS",
+									"value": "true"
+								},
+								{
+									"key": "CACHE-CONTROL",
+									"value": "no-cache"
+								},
+								{
+									"key": "EXPIRES",
+									"value": "Thu, 29 Oct 1998 17:04:19 GMT"
+								},
+								{
+									"key": "PRAGMA",
+									"value": "no-cache"
+								},
+								{
+									"key": "X-TIME-FHIR",
+									"value": ".011321"
+								},
+								{
+									"key": "CONTENT-ENCODING",
+									"value": "gzip"
+								},
+								{
+									"key": "CONTENT-LENGTH",
+									"value": "1070"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=120"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/fhir+json; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"33221cab-0109-46ac-ab18-6b6932040dc9\",\n    \"type\": \"searchset\",\n    \"link\": [\n        {\n            \"relation\": \"self\",\n            \"url\": \"http://localhost:57772/local/fhir/STU3/?_tag=http%3A//yhcr-fhir-proxy-server.test.nhs.uk/quality-measure%7Cdisposal\"\n        }\n    ],\n    \"entry\": [\n        {\n            \"fullUrl\": \"http://localhost:57772/local/fhir/STU3/Encounter/ed027a66-8c1e-401a-9aa9-f7169283c17d\",\n            \"search\": {\n                \"mode\": \"match\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"meta\": {\n                    \"tag\": [\n                        {\n                            \"system\": \"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\n                            \"code\": \"disposal\",\n                            \"display\": \"outcome of ED attendance as a result of 999\"\n                        },\n                        {\n                            \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                            \"code\": \"LocalDB\",\n                            \"display\": \"LocalDB\"\n                        }\n                    ],\n                    \"versionId\": 1,\n                    \"lastUpdated\": \"2019-03-22T14:00:54.747Z\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"https://tools.ietf.org/html/rfc4122\",\n                        \"value\": \"31a947f6-b124-4137-b272-773ddffe9fb4\"\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"system\": \"http://hl7.org/fhir/v3/ActCode\",\n                    \"code\": \"EMER\",\n                    \"display\": \"emergency\"\n                },\n                \"type\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://www.datadictionary.nhs.uk\",\n                                \"code\": \"1\",\n                                \"display\": \"First attendance face to face\"\n                            }\n                        ]\n                    }\n                ],\n                \"subject\": {\n                    \"reference\": \"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\n                    \"display\": \"MRS MUZNA ALIZADEH\"\n                },\n                \"participant\": [\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"PART\",\n                                        \"display\": \"Participation\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203531\",\n                            \"display\": \"Mrs N Bryant\"\n                        }\n                    },\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"ATND\",\n                                        \"display\": \"attender\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203530\",\n                            \"display\": \"Dr Doris MacKay\"\n                        }\n                    }\n                ],\n                \"period\": {\n                    \"start\": \"2019-03-23T09:00:00+00:00\",\n                    \"end\": \"2017-03-23T10:00:00+00:00\"\n                },\n                \"hospitalization\": {\n                    \"dischargeDisposition\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\n                                \"code\": \"19\",\n                                \"display\": \"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"\n                            }\n                        ]\n                    }\n                },\n                \"id\": \"ed027a66-8c1e-401a-9aa9-f7169283c17d\"\n            }\n        }\n    ],\n    \"total\": 1,\n    \"meta\": {\n        \"tag\": [\n            {\n                \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                \"code\": \"LocalDB\",\n                \"display\": \"LocalDB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the test aima to demonstrate the ability of FHIR proxy server to succesfully execute searches against an Encounter resource's class element.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "295ae033-7e63-48e7-b1a6-621324058909",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89fce9a6-9b4d-434a-8ed7-31a6acf0e03f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can return Encounter resources for a given patient identifier",
+			"item": [
+				{
+					"name": "Can return Encounter resources for a given patient identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4597687c-8751-43fc-98c4-6b8c805728af",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Bundle is returned\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 4",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Bundle total is exactly 4\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(4);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total...",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Bundle entry collection length === Bundle.total\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Encounter Resource bundle entry mode === 'match'\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Can return Encounter resources for a given patient identifier - Bundle entry[0] is an Encounter FHIR Resource\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Encounter\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json;"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8;"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?subject:identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Encounter"
+							],
+							"query": [
+								{
+									"key": "subject:identifier",
+									"value": "https://fhir.nhs.uk/Id/nhs-number|9657702070"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Is the _tag element observed by searches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/fhir+json;",
+										"type": "text"
+									},
+									{
+										"key": "content-type",
+										"value": "application/fhir+json;charset=utf8;",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+									"host": [
+										"{{proxy_server_address}}{{base_fhir_path}}"
+									],
+									"path": [
+										"Encounter"
+									],
+									"query": [
+										{
+											"key": "_tag",
+											"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2019 14:29:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "ACCESS-CONTROL-ALLOW-CREDENTIALS",
+									"value": "true"
+								},
+								{
+									"key": "CACHE-CONTROL",
+									"value": "no-cache"
+								},
+								{
+									"key": "EXPIRES",
+									"value": "Thu, 29 Oct 1998 17:04:19 GMT"
+								},
+								{
+									"key": "PRAGMA",
+									"value": "no-cache"
+								},
+								{
+									"key": "X-TIME-FHIR",
+									"value": ".011321"
+								},
+								{
+									"key": "CONTENT-ENCODING",
+									"value": "gzip"
+								},
+								{
+									"key": "CONTENT-LENGTH",
+									"value": "1070"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=120"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/fhir+json; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"33221cab-0109-46ac-ab18-6b6932040dc9\",\n    \"type\": \"searchset\",\n    \"link\": [\n        {\n            \"relation\": \"self\",\n            \"url\": \"http://localhost:57772/local/fhir/STU3/?_tag=http%3A//yhcr-fhir-proxy-server.test.nhs.uk/quality-measure%7Cdisposal\"\n        }\n    ],\n    \"entry\": [\n        {\n            \"fullUrl\": \"http://localhost:57772/local/fhir/STU3/Encounter/ed027a66-8c1e-401a-9aa9-f7169283c17d\",\n            \"search\": {\n                \"mode\": \"match\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"meta\": {\n                    \"tag\": [\n                        {\n                            \"system\": \"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\n                            \"code\": \"disposal\",\n                            \"display\": \"outcome of ED attendance as a result of 999\"\n                        },\n                        {\n                            \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                            \"code\": \"LocalDB\",\n                            \"display\": \"LocalDB\"\n                        }\n                    ],\n                    \"versionId\": 1,\n                    \"lastUpdated\": \"2019-03-22T14:00:54.747Z\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"https://tools.ietf.org/html/rfc4122\",\n                        \"value\": \"31a947f6-b124-4137-b272-773ddffe9fb4\"\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"system\": \"http://hl7.org/fhir/v3/ActCode\",\n                    \"code\": \"EMER\",\n                    \"display\": \"emergency\"\n                },\n                \"type\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://www.datadictionary.nhs.uk\",\n                                \"code\": \"1\",\n                                \"display\": \"First attendance face to face\"\n                            }\n                        ]\n                    }\n                ],\n                \"subject\": {\n                    \"reference\": \"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\n                    \"display\": \"MRS MUZNA ALIZADEH\"\n                },\n                \"participant\": [\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"PART\",\n                                        \"display\": \"Participation\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203531\",\n                            \"display\": \"Mrs N Bryant\"\n                        }\n                    },\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"ATND\",\n                                        \"display\": \"attender\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203530\",\n                            \"display\": \"Dr Doris MacKay\"\n                        }\n                    }\n                ],\n                \"period\": {\n                    \"start\": \"2019-03-23T09:00:00+00:00\",\n                    \"end\": \"2017-03-23T10:00:00+00:00\"\n                },\n                \"hospitalization\": {\n                    \"dischargeDisposition\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\n                                \"code\": \"19\",\n                                \"display\": \"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"\n                            }\n                        ]\n                    }\n                },\n                \"id\": \"ed027a66-8c1e-401a-9aa9-f7169283c17d\"\n            }\n        }\n    ],\n    \"total\": 1,\n    \"meta\": {\n        \"tag\": [\n            {\n                \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                \"code\": \"LocalDB\",\n                \"display\": \"LocalDB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the test aima to demonstrate the ability of FHIR proxy server to succesfully execute searches against an Encounter resource's patient/subject element.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "295ae033-7e63-48e7-b1a6-621324058909",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89fce9a6-9b4d-434a-8ed7-31a6acf0e03f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can return a specific Encounter resources for a given status and patient identifier",
+			"item": [
+				{
+					"name": "Can return a specific Encounter resources for a given status and patient identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4597687c-8751-43fc-98c4-6b8c805728af",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return Encounter resources where status = finished - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return Encounter resources where status = finished - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 4",
+									"pm.test(\"Can return Encounter resources where status = finished - Bundle total is exactly 4\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(4);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total...",
+									"pm.test(\"Can return Encounter resources where status = finished\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Can return Encounter resources where status = finished - Encounter Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Can return Encounter resources where status = finished - Bundle entry[0] is an Encounter FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Encounter\");",
+									"});",
+									"//Expectation: Enocounter resource status = finished",
+									"pm.test(\"Can return Encounter resources where status = finished - Encounter status === finished\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var subs = entry.resource;",
+									"        pm.expect(subs.status).to.eql(\"finished\");",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json;"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8;"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?patient=Patient/{{target_test_patient_id}}&status=finished",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Encounter"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/{{target_test_patient_id}}"
+								},
+								{
+									"key": "status",
+									"value": "finished"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Is the _tag element observed by searches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/fhir+json;",
+										"type": "text"
+									},
+									{
+										"key": "content-type",
+										"value": "application/fhir+json;charset=utf8;",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+									"host": [
+										"{{proxy_server_address}}{{base_fhir_path}}"
+									],
+									"path": [
+										"Encounter"
+									],
+									"query": [
+										{
+											"key": "_tag",
+											"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2019 14:29:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "ACCESS-CONTROL-ALLOW-CREDENTIALS",
+									"value": "true"
+								},
+								{
+									"key": "CACHE-CONTROL",
+									"value": "no-cache"
+								},
+								{
+									"key": "EXPIRES",
+									"value": "Thu, 29 Oct 1998 17:04:19 GMT"
+								},
+								{
+									"key": "PRAGMA",
+									"value": "no-cache"
+								},
+								{
+									"key": "X-TIME-FHIR",
+									"value": ".011321"
+								},
+								{
+									"key": "CONTENT-ENCODING",
+									"value": "gzip"
+								},
+								{
+									"key": "CONTENT-LENGTH",
+									"value": "1070"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=120"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/fhir+json; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"33221cab-0109-46ac-ab18-6b6932040dc9\",\n    \"type\": \"searchset\",\n    \"link\": [\n        {\n            \"relation\": \"self\",\n            \"url\": \"http://localhost:57772/local/fhir/STU3/?_tag=http%3A//yhcr-fhir-proxy-server.test.nhs.uk/quality-measure%7Cdisposal\"\n        }\n    ],\n    \"entry\": [\n        {\n            \"fullUrl\": \"http://localhost:57772/local/fhir/STU3/Encounter/ed027a66-8c1e-401a-9aa9-f7169283c17d\",\n            \"search\": {\n                \"mode\": \"match\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"meta\": {\n                    \"tag\": [\n                        {\n                            \"system\": \"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\n                            \"code\": \"disposal\",\n                            \"display\": \"outcome of ED attendance as a result of 999\"\n                        },\n                        {\n                            \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                            \"code\": \"LocalDB\",\n                            \"display\": \"LocalDB\"\n                        }\n                    ],\n                    \"versionId\": 1,\n                    \"lastUpdated\": \"2019-03-22T14:00:54.747Z\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"https://tools.ietf.org/html/rfc4122\",\n                        \"value\": \"31a947f6-b124-4137-b272-773ddffe9fb4\"\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"system\": \"http://hl7.org/fhir/v3/ActCode\",\n                    \"code\": \"EMER\",\n                    \"display\": \"emergency\"\n                },\n                \"type\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://www.datadictionary.nhs.uk\",\n                                \"code\": \"1\",\n                                \"display\": \"First attendance face to face\"\n                            }\n                        ]\n                    }\n                ],\n                \"subject\": {\n                    \"reference\": \"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\n                    \"display\": \"MRS MUZNA ALIZADEH\"\n                },\n                \"participant\": [\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"PART\",\n                                        \"display\": \"Participation\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203531\",\n                            \"display\": \"Mrs N Bryant\"\n                        }\n                    },\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"ATND\",\n                                        \"display\": \"attender\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203530\",\n                            \"display\": \"Dr Doris MacKay\"\n                        }\n                    }\n                ],\n                \"period\": {\n                    \"start\": \"2019-03-23T09:00:00+00:00\",\n                    \"end\": \"2017-03-23T10:00:00+00:00\"\n                },\n                \"hospitalization\": {\n                    \"dischargeDisposition\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\n                                \"code\": \"19\",\n                                \"display\": \"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"\n                            }\n                        ]\n                    }\n                },\n                \"id\": \"ed027a66-8c1e-401a-9aa9-f7169283c17d\"\n            }\n        }\n    ],\n    \"total\": 1,\n    \"meta\": {\n        \"tag\": [\n            {\n                \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                \"code\": \"LocalDB\",\n                \"display\": \"LocalDB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the test aima to demonstrate the ability of FHIR proxy server to succesfully execute searches against an Encounter resource's status element.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "295ae033-7e63-48e7-b1a6-621324058909",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89fce9a6-9b4d-434a-8ed7-31a6acf0e03f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can return a specific Encounter resources in date descending order for a patient identifier",
+			"item": [
+				{
+					"name": "Can return a specific Encounter resources in date descending order for a patient identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4597687c-8751-43fc-98c4-6b8c805728af",
+								"exec": [
+									"var moment = require(\"moment\");",
+									"",
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return Encounter resources in date desc order - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return Encounter resources in date desc order - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 4",
+									"pm.test(\"Can return Encounter resources in date desc order - Bundle total is exactly 4\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(4);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total...",
+									"pm.test(\"Can return Encounter resources in date desc order - Bundle total exactly equals Entry collection size\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Encounter Resource bundle entry search mode === match...",
+									"pm.test(\"Can return Encounter resources in date desc order - Encounter Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Encounter Resource is at the first index in the entries collection...",
+									"pm.test(\"Can return Encounter resources in date desc order - Bundle entry[0] is an Encounter FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Encounter\");",
+									"});",
+									"//Expectation: The start date of the first Encounter is > than the start of the last Encounter",
+									"pm.test(\"Can return Encounter resources in date desc order = finished - The start dates of the first Encounter is > than the start and date of the last Encounter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var mostRecent = moment(jsonData.entry[0].resource.period.start)",
+									"    var leastRecent = moment(jsonData.entry[jsonData.entry.length-1].resource.period.start);",
+									"    ",
+									"    pm.expect(mostRecent.isAfter(leastRecent)).to.be.true;",
+									"   ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json;"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8;"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?patient=Patient/{{target_test_patient_id}}&_sort=-date",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Encounter"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/{{target_test_patient_id}}"
+								},
+								{
+									"key": "_sort",
+									"value": "-date"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Is the _tag element observed by searches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/fhir+json;",
+										"type": "text"
+									},
+									{
+										"key": "content-type",
+										"value": "application/fhir+json;charset=utf8;",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+									"host": [
+										"{{proxy_server_address}}{{base_fhir_path}}"
+									],
+									"path": [
+										"Encounter"
+									],
+									"query": [
+										{
+											"key": "_tag",
+											"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2019 14:29:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "ACCESS-CONTROL-ALLOW-CREDENTIALS",
+									"value": "true"
+								},
+								{
+									"key": "CACHE-CONTROL",
+									"value": "no-cache"
+								},
+								{
+									"key": "EXPIRES",
+									"value": "Thu, 29 Oct 1998 17:04:19 GMT"
+								},
+								{
+									"key": "PRAGMA",
+									"value": "no-cache"
+								},
+								{
+									"key": "X-TIME-FHIR",
+									"value": ".011321"
+								},
+								{
+									"key": "CONTENT-ENCODING",
+									"value": "gzip"
+								},
+								{
+									"key": "CONTENT-LENGTH",
+									"value": "1070"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=120"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/fhir+json; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"33221cab-0109-46ac-ab18-6b6932040dc9\",\n    \"type\": \"searchset\",\n    \"link\": [\n        {\n            \"relation\": \"self\",\n            \"url\": \"http://localhost:57772/local/fhir/STU3/?_tag=http%3A//yhcr-fhir-proxy-server.test.nhs.uk/quality-measure%7Cdisposal\"\n        }\n    ],\n    \"entry\": [\n        {\n            \"fullUrl\": \"http://localhost:57772/local/fhir/STU3/Encounter/ed027a66-8c1e-401a-9aa9-f7169283c17d\",\n            \"search\": {\n                \"mode\": \"match\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"meta\": {\n                    \"tag\": [\n                        {\n                            \"system\": \"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\n                            \"code\": \"disposal\",\n                            \"display\": \"outcome of ED attendance as a result of 999\"\n                        },\n                        {\n                            \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                            \"code\": \"LocalDB\",\n                            \"display\": \"LocalDB\"\n                        }\n                    ],\n                    \"versionId\": 1,\n                    \"lastUpdated\": \"2019-03-22T14:00:54.747Z\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"https://tools.ietf.org/html/rfc4122\",\n                        \"value\": \"31a947f6-b124-4137-b272-773ddffe9fb4\"\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"system\": \"http://hl7.org/fhir/v3/ActCode\",\n                    \"code\": \"EMER\",\n                    \"display\": \"emergency\"\n                },\n                \"type\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://www.datadictionary.nhs.uk\",\n                                \"code\": \"1\",\n                                \"display\": \"First attendance face to face\"\n                            }\n                        ]\n                    }\n                ],\n                \"subject\": {\n                    \"reference\": \"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\n                    \"display\": \"MRS MUZNA ALIZADEH\"\n                },\n                \"participant\": [\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"PART\",\n                                        \"display\": \"Participation\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203531\",\n                            \"display\": \"Mrs N Bryant\"\n                        }\n                    },\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"ATND\",\n                                        \"display\": \"attender\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203530\",\n                            \"display\": \"Dr Doris MacKay\"\n                        }\n                    }\n                ],\n                \"period\": {\n                    \"start\": \"2019-03-23T09:00:00+00:00\",\n                    \"end\": \"2017-03-23T10:00:00+00:00\"\n                },\n                \"hospitalization\": {\n                    \"dischargeDisposition\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\n                                \"code\": \"19\",\n                                \"display\": \"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"\n                            }\n                        ]\n                    }\n                },\n                \"id\": \"ed027a66-8c1e-401a-9aa9-f7169283c17d\"\n            }\n        }\n    ],\n    \"total\": 1,\n    \"meta\": {\n        \"tag\": [\n            {\n                \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                \"code\": \"LocalDB\",\n                \"display\": \"LocalDB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the test aima to demonstrate the ability of FHIR proxy server to succesfully execute searches against an Encounter resource's status element.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "295ae033-7e63-48e7-b1a6-621324058909",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89fce9a6-9b4d-434a-8ed7-31a6acf0e03f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Is the _tag element observed by searches?",
+			"item": [
+				{
+					"name": "Is the _tag element observed by searches",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4597687c-8751-43fc-98c4-6b8c805728af",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is greater than 0",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Bundle total is greater than 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.be.above(0);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total...",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Patient Resource bundle entry search mode === match...",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Encounter Resource bundle entry mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0];",
+									"    pm.expect(entry.search.mode).to.eql(\"match\");",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Encounter _tag = http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal - Bundle entry[0] is an Encounter FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Encounter\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/fhir+json;",
+								"type": "text"
+							},
+							{
+								"key": "content-type",
+								"value": "application/fhir+json;charset=utf8;",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Encounter"
+							],
+							"query": [
+								{
+									"key": "_tag",
+									"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Is the _tag element observed by searches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/fhir+json;",
+										"type": "text"
+									},
+									{
+										"key": "content-type",
+										"value": "application/fhir+json;charset=utf8;",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{proxy_server_address}}{{base_fhir_path}}/Encounter?_tag=http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal",
+									"host": [
+										"{{proxy_server_address}}{{base_fhir_path}}"
+									],
+									"path": [
+										"Encounter"
+									],
+									"query": [
+										{
+											"key": "_tag",
+											"value": "http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure|disposal"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2019 14:29:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "ACCESS-CONTROL-ALLOW-CREDENTIALS",
+									"value": "true"
+								},
+								{
+									"key": "CACHE-CONTROL",
+									"value": "no-cache"
+								},
+								{
+									"key": "EXPIRES",
+									"value": "Thu, 29 Oct 1998 17:04:19 GMT"
+								},
+								{
+									"key": "PRAGMA",
+									"value": "no-cache"
+								},
+								{
+									"key": "X-TIME-FHIR",
+									"value": ".011321"
+								},
+								{
+									"key": "CONTENT-ENCODING",
+									"value": "gzip"
+								},
+								{
+									"key": "CONTENT-LENGTH",
+									"value": "1070"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=120"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/fhir+json; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"33221cab-0109-46ac-ab18-6b6932040dc9\",\n    \"type\": \"searchset\",\n    \"link\": [\n        {\n            \"relation\": \"self\",\n            \"url\": \"http://localhost:57772/local/fhir/STU3/?_tag=http%3A//yhcr-fhir-proxy-server.test.nhs.uk/quality-measure%7Cdisposal\"\n        }\n    ],\n    \"entry\": [\n        {\n            \"fullUrl\": \"http://localhost:57772/local/fhir/STU3/Encounter/ed027a66-8c1e-401a-9aa9-f7169283c17d\",\n            \"search\": {\n                \"mode\": \"match\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"meta\": {\n                    \"tag\": [\n                        {\n                            \"system\": \"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\n                            \"code\": \"disposal\",\n                            \"display\": \"outcome of ED attendance as a result of 999\"\n                        },\n                        {\n                            \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                            \"code\": \"LocalDB\",\n                            \"display\": \"LocalDB\"\n                        }\n                    ],\n                    \"versionId\": 1,\n                    \"lastUpdated\": \"2019-03-22T14:00:54.747Z\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"https://tools.ietf.org/html/rfc4122\",\n                        \"value\": \"31a947f6-b124-4137-b272-773ddffe9fb4\"\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"system\": \"http://hl7.org/fhir/v3/ActCode\",\n                    \"code\": \"EMER\",\n                    \"display\": \"emergency\"\n                },\n                \"type\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://www.datadictionary.nhs.uk\",\n                                \"code\": \"1\",\n                                \"display\": \"First attendance face to face\"\n                            }\n                        ]\n                    }\n                ],\n                \"subject\": {\n                    \"reference\": \"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\n                    \"display\": \"MRS MUZNA ALIZADEH\"\n                },\n                \"participant\": [\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"PART\",\n                                        \"display\": \"Participation\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203531\",\n                            \"display\": \"Mrs N Bryant\"\n                        }\n                    },\n                    {\n                        \"type\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"system\": \"http://hl7.org/fhir/v3/ParticipationType\",\n                                        \"code\": \"ATND\",\n                                        \"display\": \"attender\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"individual\": {\n                            \"reference\": \"Practitioner/203530\",\n                            \"display\": \"Dr Doris MacKay\"\n                        }\n                    }\n                ],\n                \"period\": {\n                    \"start\": \"2019-03-23T09:00:00+00:00\",\n                    \"end\": \"2017-03-23T10:00:00+00:00\"\n                },\n                \"hospitalization\": {\n                    \"dischargeDisposition\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\n                                \"code\": \"19\",\n                                \"display\": \"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"\n                            }\n                        ]\n                    }\n                },\n                \"id\": \"ed027a66-8c1e-401a-9aa9-f7169283c17d\"\n            }\n        }\n    ],\n    \"total\": 1,\n    \"meta\": {\n        \"tag\": [\n            {\n                \"system\": \"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\n                \"code\": \"LocalDB\",\n                \"display\": \"LocalDB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute searches against _tag elements. These kind of searches may be necessary to support subscription triggering based on clinical and/or administrative work flows.\n\nPrior to starting this test please create the following two Encounter resources so that they can be surfaced by your FHIR proxy server: \n\n{\"resourceType\":\"Encounter\",\"meta\":{\"tag\":[{\"system\":\"http://yhcr-fhir-proxy-server.test.nhs.uk/quality-measure\",\"code\":\"disposal\",\"display\":\"outcome of ED attendance as a result of 999\"}]},\"identifier\":[{\"system\":\"https://tools.ietf.org/html/rfc4122\",\"value\":\"31a947f6-b124-4137-b272-773ddffe9fb4\"}],\"status\":\"finished\",\"class\":{\"system\":\"http://hl7.org/fhir/v3/ActCode\",\"code\":\"EMER\",\"display\":\"emergency\"},\"type\":[{\"coding\":[{\"system\":\"https://www.datadictionary.nhs.uk\",\"code\":\"1\",\"display\":\"First attendance face to face\"}]}],\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"participant\":[{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"PART\",\"display\":\"Participation\"}]}],\"individual\":{\"reference\":\"Practitioner/203531\",\"display\":\"Mrs N Bryant\"}},{\"type\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/v3/ParticipationType\",\"code\":\"ATND\",\"display\":\"attender\"}]}],\"individual\":{\"reference\":\"Practitioner/203530\",\"display\":\"Dr Doris MacKay\"}}],\"period\":{\"start\":\"2019-03-23T09:00:00+00:00\",\"end\":\"2017-03-23T10:00:00+00:00\"},\"hospitalization\":{\"dischargeDisposition\":{\"coding\":[{\"system\":\"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-DischargeDestination-1\",\"code\":\"19\",\"display\":\"Usual place of residence unless listed below, for example, a private dwelling whether owner occupied or owned by Local Authority, housing association or other landlord. This includes wardened accommodation but not residential accommodation where health care is provided. It also includes Patients with no fixed abode.\"}]}}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "295ae033-7e63-48e7-b1a6-621324058909",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89fce9a6-9b4d-434a-8ed7-31a6acf0e03f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can return a specific set of Observations for a given Patient Identifier",
+			"item": [
+				{
+					"name": "Can Search for Vital Sign Observations for a given Test Patient Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Test Patient 9657702070 - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 8",
+									"pm.test(\"Test Patient 9657702070 - Bundle total is exactly 8\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(8);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Test Patient 9657702070 - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Observation Resource bundle entry type === searchset...",
+									"pm.test(\"Test Patient 9657702070 - Observation Resource bundle entry type === 'searchset'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"searchset\");",
+									"});",
+									"//Expectation: Each entry search mode === match...",
+									"pm.test(\"Test Patient 9657702070 - Each entry search mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        pm.expect(entry.search.mode).to.eql(\"match\");",
+									"    });",
+									"});",
+									"//Expectation: Bundle contains only Observation Resources...",
+									"pm.test(\"Test Patient 9657702070 - Each bundle entry is an Observation resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.resourceType).to.eql(\"Observation\");",
+									"    });",
+									"});",
+									"",
+									"//Expectation: Each Observation entry category === vital-signs...",
+									"pm.test(\"Test Patient 9657702070 - Each Observation entry category === vital-signs\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.category[0].coding[0].code).to.eql(\"vital-signs\");",
+									"    });",
+									"});",
+									"//Expectation: Each Observation entry references the expected patient...",
+									"pm.test(\"Test Patient 9657702070 - Each Observation entry references the expected patient\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.subject.reference).to.eql(\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Observation?patient=Patient/{{target_test_patient_id}}&category=vital-signs",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Observation"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/{{target_test_patient_id}}"
+								},
+								{
+									"key": "category",
+									"value": "vital-signs"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute a search against a sub set of observations (vital signs) for a given patient identifier.\n\nBefore execution, please ensure the following Observation resources exist in the local proxy and each references the Patient resource id returned by Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070:\n\n\n{\"resourceType\":\"Bundle\",\"id\":\"3dfca3a1-5221-4116-8e88-fe16c7085401\",\"type\":\"searchset\",\"link\":[{\"relation\":\"self\",\"url\":\"http://localhost:57772/local/fhir/STU3/?category=vital-signs&patient=Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\"}],\"entry\":[{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/c0775959-6bcc-460c-8ec7-c835a449b42e\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-20T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":75,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":127,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"c0775959-6bcc-460c-8ec7-c835a449b42e\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:02:32.285Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/60dcd894-3071-47ab-a44d-cb96d55cfa86\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-20T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":75,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":127,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"60dcd894-3071-47ab-a44d-cb96d55cfa86\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:25:59.913Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/7c97c4e0-fa61-4a30-b9fb-12cb2beabb61\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"103228002\",\"display\":\"Blood oxygen saturation\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-19T09:01:42+00:00\",\"valueQuantity\":{\"value\":99,\"unit\":\"%\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"%\"},\"id\":\"7c97c4e0-fa61-4a30-b9fb-12cb2beabb61\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:27:28.628Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/add09dc1-3ba3-49f6-a857-86e8c43ba141\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"364075005\",\"display\":\"Heart rate\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-19T09:01:42+00:00\",\"valueQuantity\":{\"value\":95,\"unit\":\"/min\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"/min\"},\"id\":\"add09dc1-3ba3-49f6-a857-86e8c43ba141\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:27:47.816Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/b7f3a183-ee84-4f33-b23e-15f26780bea2\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":132,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":78,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"b7f3a183-ee84-4f33-b23e-15f26780bea2\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:09.776Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/2d8524c1-12d2-43df-81f6-876a35a20b7d\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"103228002\",\"display\":\"Blood oxygen saturation\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"valueQuantity\":{\"value\":98,\"unit\":\"%\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"%\"},\"id\":\"2d8524c1-12d2-43df-81f6-876a35a20b7d\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:22.306Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/477309da-3bb3-4529-9a6f-51f656336804\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"364075005\",\"display\":\"Heart rate\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"valueQuantity\":{\"value\":89,\"unit\":\"/min\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"/min\"},\"id\":\"477309da-3bb3-4529-9a6f-51f656336804\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:37.899Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/f4671713-b952-48d5-b852-0ec04bc0d989\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-17T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":129,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":79,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"f4671713-b952-48d5-b852-0ec04bc0d989\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:52.923Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}}],\"total\":8,\"meta\":{\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "27cf78aa-7693-4a89-89e0-e4b09b239a94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "87ab73c2-4b7f-41b7-a20f-da1a5add24f1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Do paged Observation for a given Patient Identifier work as expected?",
+			"item": [
+				{
+					"name": "Can return paged Observations for a given Patient Identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 8",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle size exactly equals 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(8);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to page size (count)",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Entry collection size is exactly equal to page size (count)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(2);",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 5 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - 5 relation links are present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var linkCount = jsonData.link.length;",
+									"    pm.expect(linkCount).to.equal(5)",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 5 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - one of each relation is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.link[0].relation).to.equal(\"first\") && ",
+									"        pm.expect(jsonData.link[1].relation).to.equal(\"previous\") && ",
+									"            pm.expect(jsonData.link[2].relation).to.equal(\"self\") &&",
+									"                pm.expect(jsonData.link[3].relation).to.equal(\"next\") &&",
+									"                    pm.expect(jsonData.link[4].relation).to.equal(\"last\")",
+									"});",
+									"//Expectation: First and Previous Page links are expected to be exactly equal if on the first page of results",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - First and Previous Page links are expected to be exactly equal if on the first page of results\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var first = jsonData.link[0];",
+									"    var previous = jsonData.link[1];",
+									"    pm.expect(first.relation).to.equal(\"first\") && ",
+									"        pm.expect(previous.relation).to.equal(\"previous\") && ",
+									"                pm.expect(first.url).to.equal(previous.url);",
+									"});",
+									"//Expectation: Next Page is expected to be exactly equal to 2 if on first page of results (4 lots of pages containing 2 entries)",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Next Page is expected to be exactly equal to 2 if on first page of results (4 lots of pages containing 2 entries)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var link = jsonData.link[3];",
+									"    pm.expect(link.relation).to.equal(\"next\") && ",
+									"        pm.expect(link.url).to.include(\"?page=2\");",
+									"});",
+									"//Expectation: Last Page is expected to be exactly equal to 4 (4 lots of pages containing 2 entries)",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Last Page is expected to be exactly equal to 4 (4 lots of pages containing 2 entries)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var link = jsonData.link[jsonData.link.length-1];",
+									"    pm.expect(link.url).to.include(\"?page=4\");",
+									"});",
+									"",
+									"//Expectation: Each entry search mode === match...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each entry search mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        pm.expect(entry.search.mode).to.eql(\"match\");",
+									"    });",
+									"});",
+									"//Expectation: Bundle contains only Observation Resources...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each bundle entry is an Observation resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.resourceType).to.eql(\"Observation\");",
+									"    });",
+									"});",
+									"//Expectation: Each Observation entry references the expected patient...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each Observation entry references the expected patient\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.subject.reference).to.eql(\"Patient/\" + pm.environment.get(\"target_test_patient_id\"));",
+									"    });",
+									"});",
+									"//These environment variables are needed so that the following tests will can page through the next and last pages of the results...",
+									"var bundle = pm.response.json();",
+									"//It is expected that the resources returned in this page are not present in next or last - gather their ids...",
+									"var firstPageResourceIds = [];",
+									"bundle.entry.forEach(function(entry) {",
+									"    firstPageResourceIds.push[entry.resource.id]; ",
+									"});",
+									"pm.environment.set(\"firstPageResourceIds\", firstPageResourceIds);",
+									"//Set the next and last page URL variables...",
+									"//Yes, I imagine you are thinking WTF? This is done to support running the collection and environment within a Docker container, specifically where the FHIR proxy resides on the host running the container.",
+									"var nextPage = pm.environment.get(\"proxy_server_address\") + pm.environment.get(\"base_fhir_path\") + bundle.link[3].url.substr(bundle.link[3].url.lastIndexOf(\"/\"))",
+									"var lastPage = pm.environment.get(\"proxy_server_address\") + pm.environment.get(\"base_fhir_path\") +  bundle.link[4].url.substr(bundle.link[3].url.lastIndexOf(\"/\"))",
+									"pm.environment.set(\"next_page\", nextPage);",
+									"pm.environment.set(\"last_page\", lastPage);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Observation?patient=Patient/{{target_test_patient_id}}&_count=2",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Observation"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/{{target_test_patient_id}}"
+								},
+								{
+									"key": "_count",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can return next page of Observations for a given Patient Identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 8",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle size exactly equals 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(8);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to page size (count)",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Entry collection size is exactly equal to page size (count)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(2);",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 5 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - 5 relation links are present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var linkCount = jsonData.link.length;",
+									"    pm.expect(linkCount).to.equal(5)",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 5 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - one of each relation is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.link[0].relation).to.equal(\"first\") && ",
+									"        pm.expect(jsonData.link[1].relation).to.equal(\"previous\") && ",
+									"            pm.expect(jsonData.link[2].relation).to.equal(\"self\") &&",
+									"                pm.expect(jsonData.link[3].relation).to.equal(\"next\") &&",
+									"                    pm.expect(jsonData.link[4].relation).to.equal(\"last\")",
+									"});",
+									"//Expectation: Previous Page is expected exactly equal 1 on 2nd page of results...",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Previous Page is expected exactly equal 1 on 2nd page of results\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var previous = jsonData.link[1];",
+									"    pm.expect(previous.relation).to.equal(\"previous\") && ",
+									"        pm.expect(previous.url).to.include(\"?page=1\");",
+									"});",
+									"//Expectation: This Page URL is exactly equal to that present in the next relation on the 1st page...",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - This Page URL is exactly equal to that present in the next relation on the 1st page\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var self = jsonData.link[2].url.substr(jsonData.link[2].url.lastIndexOf(\"/\"));",
+									"    var currentUrl = pm.environment.get(\"next_page\").substr(pm.environment.get(\"next_page\").lastIndexOf(\"/\")).replace(\"Observation\",\"\");",
+									"    pm.expect(self).to.equal(currentUrl);",
+									"});",
+									"//Expectation: Next Page is expected to be exactly equal to 3 if on 2nd page of results (4 lots of pages containing 2 entries)",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Next Page is expected to be exactly equal to 3 if on 2nd page of results (4 lots of pages containing 2 entries)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var link = jsonData.link[3];",
+									"    pm.expect(link.relation).to.equal(\"next\") && ",
+									"        pm.expect(link.url).to.include(\"?page=3\");",
+									"});",
+									"//Expectation: Resources present on first page are not included in this result set",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Resources present on first page are not included in this result set\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var arePreviousPageResultsIncluded = false;",
+									"    var firstPageResourceIds = JSON.parse(JSON.stringify(pm.environment.get(\"firstPageResourceIds\")))",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        arePreviousPageResultsIncluded = firstPageResourceIds.indexOf(entry.id) !== -1;",
+									"    });",
+									"    pm.expect(arePreviousPageResultsIncluded).to.be.false;",
+									"});",
+									"//Expectation: Each entry search mode === match...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each entry search mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        pm.expect(entry.search.mode).to.eql(\"match\");",
+									"    });",
+									"});",
+									"//Expectation: Bundle contains only Observation Resources...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each bundle entry is an Observation resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.resourceType).to.eql(\"Observation\");",
+									"    });",
+									"});",
+									"//Expectation: Each Observation entry references the expected patient...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each Observation entry references the expected patient\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.subject.reference).to.eql(\"Patient/\" + pm.environment.get(\"target_test_patient_id\"));",
+									"    });",
+									"});",
+									"//These environment variables are needed so that the following tests will can page through the next and last pages of the results...",
+									"var bundle = pm.response.json();",
+									"//It is expected that the resources returned in this page are not present in next or last - gather their ids...",
+									"var nextPageResourceIds = [];",
+									"bundle.entry.forEach(function(entry) {",
+									"    nextPageResourceIds.push[entry.resource.id]; ",
+									"});",
+									"pm.environment.set(\"nextPageResourceIds\", nextPageResourceIds);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{next_page}}",
+							"host": [
+								"{{next_page}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can return last page of Observations for a given Patient Identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 8",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Bundle size exactly equals 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(8);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to page size (count)",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Entry collection size is exactly equal to page size (count)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(2);",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 5 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - 5 relation links are present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var linkCount = jsonData.link.length;",
+									"    pm.expect(linkCount).to.equal(5)",
+									"});",
+									"//Expectation: Can return paged Observations for a given Patient Identifier - 4 relation links are present",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - one of each relation is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.link[0].relation).to.equal(\"first\") && ",
+									"        pm.expect(jsonData.link[1].relation).to.equal(\"previous\") && ",
+									"            pm.expect(jsonData.link[2].relation).to.equal(\"self\") &&",
+									"                pm.expect(jsonData.link[3].relation).to.equal(\"next\") &&",
+									"                    pm.expect(jsonData.link[4].relation).to.equal(\"last\")",
+									"});",
+									"//Expectation: Previous Page is expected exactly equal 3 on last page of results (page 4)",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Previous Page is expected exactly equal 3 on last page of results (page 4)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var previous = jsonData.link[1];",
+									"    pm.expect(previous.relation).to.equal(\"previous\") && ",
+									"        pm.expect(previous.url).to.include(\"?page=3\");",
+									"});",
+									"//Expectation: This Page URL is exactly equal to that present in the last relation on the 1st page...",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - This Page URL is exactly equal to that present in the last relation on the 1st page\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var self = jsonData.link[2].url.substr(jsonData.link[2].url.lastIndexOf(\"/\"));",
+									"    var currentUrl = pm.environment.get(\"last_page\").substr(pm.environment.get(\"last_page\").lastIndexOf(\"/\")).replace(\"Observation\",\"\");",
+									"    pm.expect(self).to.equal(currentUrl);",
+									"});",
+									"//Expectation: Next Page is expected to be exactly equal to 3 if on 2nd page of results (4 lots of pages containing 2 entries)",
+									"pm.test(\"Can return paged Observations for a given Patient Identifier - Next Page is expected to be exactly equal to 4 if on last page of results (4 lots of pages containing 2 entries)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var link = jsonData.link[3];",
+									"    pm.expect(link.relation).to.equal(\"next\") && ",
+									"        pm.expect(link.url).to.include(\"?page=4\");",
+									"});",
+									"//Expectation: Resources present on 1st and 2nd pages are not included in this result set",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Resources present on 1st and 2nd pages are not included in this result set\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var arePreviousPageResultsIncluded = false;",
+									"    var firstPageResourceIds = JSON.parse(JSON.stringify(pm.environment.get(\"firstPageResourceIds\")))",
+									"    var nextPageResourceIds = JSON.parse(JSON.stringify(pm.environment.get(\"nextPageResourceIds\")))",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        arePreviousPageResultsIncluded = firstPageResourceIds.indexOf(entry.id) !== -1 || nextPageResourceIds.indexOf(entry.id) !== -1;",
+									"    });",
+									"    pm.expect(arePreviousPageResultsIncluded).to.be.false;",
+									"});",
+									"//Expectation: Each entry search mode === match...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each entry search mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        pm.expect(entry.search.mode).to.eql(\"match\");",
+									"    });",
+									"});",
+									"//Expectation: Bundle contains only Observation Resources...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each bundle entry is an Observation resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.resourceType).to.eql(\"Observation\");",
+									"    });",
+									"});",
+									"//Expectation: Each Observation entry references the expected patient...",
+									"pm.test(\"Can return return a paged Observations for a given Patient Identifier - Each Observation entry references the expected patient\", function () {",
+									"    //Note: Reference URL is expected to be a local reference (not Full URL)",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var obs = entry.resource;",
+									"        pm.expect(obs.subject.reference).to.eql(\"Patient/\" + pm.environment.get(\"target_test_patient_id\"));",
+									"    });",
+									"});",
+									"//Reset env vars..",
+									"pm.environment.set(\"next_page\",\"\");",
+									"pm.environment.set(\"last_page\",\"\");",
+									"pm.environment.set(\"firstPageResourceIds\",\"\");",
+									"pm.environment.set(\"nextPageResourceIds\",\"\");",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{last_page}}",
+							"host": [
+								"{{last_page}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder ascertains whether each test patient record as provided in JIRA ref: https://synanetics.atlassian.net/browse/YHCR-43 can be surfaced by each local FHIR proxy server. In addition, the tests aim to demonstrate the ability of FHIR proxy server to succesfully execute a search against a sub set of observations (vital signs) for a given patient identifier.\n\nBefore execution, please ensure the following Observation resources exist in the local proxy and each references the Patient resource id returned by Patient?identifier=https://fhir.nhs.uk/Id/nhs-number|9657702070:\n\n\n{\"resourceType\":\"Bundle\",\"id\":\"3dfca3a1-5221-4116-8e88-fe16c7085401\",\"type\":\"searchset\",\"link\":[{\"relation\":\"self\",\"url\":\"http://localhost:57772/local/fhir/STU3/?category=vital-signs&patient=Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\"}],\"entry\":[{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/c0775959-6bcc-460c-8ec7-c835a449b42e\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-20T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":75,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":127,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"c0775959-6bcc-460c-8ec7-c835a449b42e\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:02:32.285Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/60dcd894-3071-47ab-a44d-cb96d55cfa86\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-20T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":75,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":127,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"60dcd894-3071-47ab-a44d-cb96d55cfa86\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:25:59.913Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/7c97c4e0-fa61-4a30-b9fb-12cb2beabb61\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"103228002\",\"display\":\"Blood oxygen saturation\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-19T09:01:42+00:00\",\"valueQuantity\":{\"value\":99,\"unit\":\"%\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"%\"},\"id\":\"7c97c4e0-fa61-4a30-b9fb-12cb2beabb61\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:27:28.628Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/add09dc1-3ba3-49f6-a857-86e8c43ba141\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"364075005\",\"display\":\"Heart rate\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-19T09:01:42+00:00\",\"valueQuantity\":{\"value\":95,\"unit\":\"/min\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"/min\"},\"id\":\"add09dc1-3ba3-49f6-a857-86e8c43ba141\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:27:47.816Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/b7f3a183-ee84-4f33-b23e-15f26780bea2\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":132,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":78,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"b7f3a183-ee84-4f33-b23e-15f26780bea2\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:09.776Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/2d8524c1-12d2-43df-81f6-876a35a20b7d\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"103228002\",\"display\":\"Blood oxygen saturation\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"valueQuantity\":{\"value\":98,\"unit\":\"%\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"%\"},\"id\":\"2d8524c1-12d2-43df-81f6-876a35a20b7d\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:22.306Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/477309da-3bb3-4529-9a6f-51f656336804\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"364075005\",\"display\":\"Heart rate\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-18T09:01:42+00:00\",\"valueQuantity\":{\"value\":89,\"unit\":\"/min\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"/min\"},\"id\":\"477309da-3bb3-4529-9a6f-51f656336804\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:37.899Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}},{\"fullUrl\":\"http://localhost:57772/local/fhir/STU3/Observation/f4671713-b952-48d5-b852-0ec04bc0d989\",\"search\":{\"mode\":\"match\"},\"resource\":{\"resourceType\":\"Observation\",\"status\":\"final\",\"category\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/observation-category\",\"code\":\"vital-signs\",\"display\":\"Vital Signs\"}]}],\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"75367002\",\"display\":\"Blood pressure\"}]},\"subject\":{\"reference\":\"Patient/076a12f7-cf78-4359-8703-1c32d2c07d60\",\"display\":\"MRS MUZNA ALIZADEH\"},\"effectiveDateTime\":\"2019-01-17T09:01:42+00:00\",\"component\":[{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"72313002\",\"display\":\"Systolic blood pressure\"}]},\"valueQuantity\":{\"value\":129,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}},{\"code\":{\"coding\":[{\"system\":\"http://snomed.info/sct\",\"code\":\"1091811000000102\",\"display\":\"Diastolic arterial pressure\"}]},\"valueQuantity\":{\"value\":79,\"unit\":\"mm[Hg]\",\"system\":\"http://unitsofmeasure.org\",\"code\":\"mm[Hg]\"}}],\"id\":\"f4671713-b952-48d5-b852-0ec04bc0d989\",\"meta\":{\"versionId\":1,\"lastUpdated\":\"2019-03-20T15:28:52.923Z\",\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}}],\"total\":8,\"meta\":{\"tag\":[{\"system\":\"https://lcl-fhir-proxy.yhcr.nhs.uk/Source\",\"code\":\"LocalDB\",\"display\":\"LocalDB\"}]}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "27cf78aa-7693-4a89-89e0-e4b09b239a94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "87ab73c2-4b7f-41b7-a20f-da1a5add24f1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Can create Subscription",
+			"item": [
+				{
+					"name": "Can create a Subscription Resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "405981bd-74b1-4fee-b114-ff43b71e00ab",
+								"exec": [
+									"//Expect 201 created with location header, body of response to be a FHIR resource of expected resourceType and id has been assigned",
+									"pm.test(\"Can Create Subscription - 201 returned\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Can Create Subscription - Location is present\", function () {",
+									"    pm.response.to.have.header(\"Location\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Subscription\",\r\n  \"criteria\": \"Encounter?class=EMER&patient=Patient/{{target_test_patient_id}}\",\r\n  \"contact\": [\r\n    {\r\n        \"system\":\"email\",\r\n        \"value\":\"safe.guarding@st.elmos.fhir.nhs.uk\"\r\n    }\r\n  ],\r\n  \"reason\": \"Example Subscription for a when a known vulnerable adult is discharged from an Emergency attendance\",\r\n  \"status\": \"requested\",\r\n    \"channel\": {\r\n        \"type\": \"rest-hook\",\r\n        \"endpoint\": \"https://api.jsonbin.io/b\",\r\n        \"payload\": \"application/fhir+json\",\r\n        \"header\":[\r\n            \"Content-Type:application/json\",\r\n            \"secret-key:a-secret-api-key\",\r\n            \"private:true\",\r\n            \"name:Subscription Bin\",\r\n            \"collection-id:5c4850e31ca2fd17f8d7c80e\"]\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Subscription",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Subscription"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Can create Patient",
+			"item": [
+				{
+					"name": "Can create a Patient resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "405981bd-74b1-4fee-b114-ff43b71e00ab",
+								"exec": [
+									"//Expect 201 created with location header, body of response to be a FHIR resource of expected resourceType and id has been assigned",
+									"pm.test(\"Can Create Patient - 201 returned\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Can Create Patient - Location is present\", function () {",
+									"    //Set API path for read...http://localhost:57772/local/fhir/STU3/Patient/2ea60e8a-d37b-4c56-8639-d7c5bd1f3d32/_history/1",
+									"    var resourceUrl = pm.response.headers.get(\"Location\").replace(\"/_history/1\", \"\");",
+									"    pm.environment.set(\"resource_url\", resourceUrl);",
+									"    pm.response.to.have.header(\"Location\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "894473ea-c452-4d94-b9f7-75191b290674",
+								"exec": [
+									"//Get the last NHS number, increment it and persist new value in env vars...",
+									"var nhsNumber = pm.environment.get(\"lastTestNHSNumber\");",
+									"nhsNumber++;",
+									"pm.environment.set(\"lastTestNHSNumber\", nhsNumber);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"resourceType\": \"Patient\",\r\n\t\"identifier\": [{\r\n\t\t\"extension\": [{\r\n\t\t\t\"url\": \"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1\",\r\n\t\t\t\"valueCodeableConcept\": {\r\n\t\t\t\t\"coding\": [{\r\n\t\t\t\t\t\"system\": \"https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1\",\r\n\t\t\t\t\t\"code\": \"01\",\r\n\t\t\t\t\t\"display\": \"Number present and verified\"\r\n\t\t\t\t}]\r\n\t\t\t}\r\n\t\t}],\r\n\t\t\"system\": \"https://fhir.nhs.uk/Id/nhs-number\",\r\n\t\t\"value\": \"{{lastTestNHSNumber}}\"\r\n\t}],\r\n\t\"active\": true,\r\n\t\"name\": [{\r\n\t\t\"use\": \"official\",\r\n\t\t\"family\": \"ZZZTEST\",\r\n\t\t\"given\": [\r\n\t\t\t\"ZZZ\"\r\n\t\t],\r\n\t\t\"prefix\": [\r\n\t\t\t\"ZZZ\"\r\n\t\t]\r\n\t}],\r\n\t\"gender\": \"female\",\r\n\t\"birthDate\": \"1986-02-27\",\r\n\t\"address\": [{\r\n\t\t\"use\": \"home\",\r\n\t\t\"type\": \"physical\"\r\n\t}],\r\n\t\"maritalStatus\": {\r\n\t\t\"coding\": [{\r\n\t\t\t\"system\": \"http://hl7.org/fhir/v3/MaritalStatus\",\r\n\t\t\t\"code\": \"S\",\r\n\t\t\t\"display\": \"Never Married\"\r\n\t\t}]\r\n\t},\r\n\t\"generalPractitioner\": [{\r\n\t\t\"reference\": \"Practitioner/203529\",\r\n\t\t\"display\": \"Miss Nichole Gilbert\"\r\n\t}],\r\n\t\"managingOrganization\": {\r\n\t\t\"reference\": \"Organization/200268\",\r\n\t\t\"display\": \"HSCIC test Practice\"\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Can read newly created Patient resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "405981bd-74b1-4fee-b114-ff43b71e00ab",
+								"exec": [
+									"pm.test(\"Can Read Patient - 200 returned\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Can Read Patient - Patient Resource is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Patient\");",
+									"});",
+									"",
+									"//Expectation: NHS number is exactly equal to that sent in the request body...",
+									"pm.test(\"Can Read Patient - Patient NHS Number equals that send in request body\", function () {",
+									"    var lastTestNHSNumber = pm.environment.get(\"lastTestNHSNumber\").toString();",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.identifier[0].value).to.equals(lastTestNHSNumber);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "894473ea-c452-4d94-b9f7-75191b290674",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json;charset=utf8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{resource_url}}",
+							"host": [
+								"{{resource_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Can search for Patient by name and gender",
+			"item": [
+				{
+					"name": "Can Search for Patient by name and gender",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can Search for Patient by name and gender - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Can Search for Patient by name and gender - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is exactly 1",
+									"pm.test(\"Can Search for Patient by name and gender - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.eql(1);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Can Search for Patient by name and gender - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: A Patient Resource is at the first index in the entries collection...",
+									"pm.test(\"Can Search for Patient by name and gender - Bundle entry[0] is a Patient FHIR Resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.resourceType).to.eql(\"Patient\");",
+									"});",
+									"//Expectation: NHS number is exactly equal to that provided in _id query string parameter...",
+									"pm.test(\"Can Search for Patient by name and gender - Patient NHS Number equals that provided in _id query string parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource;",
+									"    pm.expect(entry.identifier[0].value).to.eql(\"9657702070\");",
+									"});",
+									"//Expectation: Demographics exactly match that which is expected (as denoted in test comments)",
+									"pm.test(\"Can Search for Patient by name and gender - Demographics exactly match that which is expected\", function () {",
+									"    //Prefix, FamilyName, GivenName, Dob, Gender",
+									"    //Mrs, ALIZADEH, MUZNA, 19-Jul-1938, F",
+									"    var jsonData = pm.response.json();",
+									"    var entry = jsonData.entry[0].resource; ",
+									"        pm.expect(entry.name[0].family).to.eql(\"ALIZADEH\") && ",
+									"            pm.expect(entry.name[0].given[0]).to.eql(\"MUZNA\") && ",
+									"                pm.expect(entry.birthDate).to.eql(\"1983-07-19\") && ",
+									"                    pm.expect(entry.gender).to.eql(\"female\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Patient?family=ALIZADEH&gender=female",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "family",
+									"value": "ALIZADEH"
+								},
+								{
+									"key": "gender",
+									"value": "female"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Can search for Subscription resources for a given resourceType",
+			"item": [
+				{
+					"name": "Can search for Subscription resources for a given resourceType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84a2da2-9c8e-4c16-8e98-9cd67db958fc",
+								"exec": [
+									"//Expectation: 200 OK",
+									"pm.test(\"Can search for Subscription resources for a given resourceType- Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"//Expectation: Bundle is returned",
+									"pm.test(\"Test Patient 9657702070 - Bundle is returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Bundle\");",
+									"});",
+									"//Expectation: Bundle size is > 0",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Bundle total is exactly 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.total).to.be.above(0);",
+									"});",
+									"//Expectation: Entry collection size is exactly equal to Bundle total",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Bundle entry collection length === Bundle.total\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var entries = jsonData.entry;",
+									"    pm.expect(entries.length).to.eql(jsonData.total);",
+									"});",
+									"//Expectation: Subscription Resource bundle entry type === searchset...",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Subscription Resource bundle entry type === 'searchset'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"searchset\");",
+									"});",
+									"//Expectation: Each entry search mode === match...",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Each entry search mode === 'match'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        pm.expect(entry.search.mode).to.eql(\"match\");",
+									"    });",
+									"});",
+									"//Expectation: Bundle contains only Subscription Resources...",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Each bundle entry is an Subscription resource\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var subs = entry.resource;",
+									"        pm.expect(subs.resourceType).to.eql(\"Subscription\");",
+									"    });",
+									"});",
+									"",
+									"//Expectation: Each Subscription critiera start with Encounter...",
+									"pm.test(\"Can search for Subscription resources for a given resourceType - Each Subscription critiera start with Encounter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.entry.forEach(function(entry) {",
+									"        var subs = entry.resource;",
+									"        pm.expect(subs.criteria).to.have.string(\"Encounter\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{proxy_server_address}}{{base_fhir_path}}/Subscription?criteria=Encounter",
+							"host": [
+								"{{proxy_server_address}}{{base_fhir_path}}"
+							],
+							"path": [
+								"Subscription"
+							],
+							"query": [
+								{
+									"key": "criteria",
+									"value": "Encounter"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1e9d2464-0ddb-4e09-8f35-bd3bbede2951",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "15c01617-b134-481e-9f5f-ad47a3766821",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
