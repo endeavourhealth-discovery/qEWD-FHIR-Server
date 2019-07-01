@@ -1,0 +1,70 @@
+{
+        "resourceType": "Patient",
+        "meta": {
+          "versionId": "1469448000000",
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+          ]
+        },
+        "identifier": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSNumberVerificationStatus-1",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "https://fhir.nhs.uk/CareConnect-NHSNumberVerificationStatus-1",
+                      "code": "01",
+                      "display": "Number present and verified"
+                    }
+                  ]
+                }
+              }
+            ],
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "9658218873"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "family": "MEAKIN",
+            "given": [
+              "Michael"
+            ],
+            "prefix": [
+              "Mr"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0208 412 8867",
+            "use": "home"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1960-06-06",
+        "address": [
+          {
+            "use": "home",
+            "type": "physical",
+            "line": [
+              "7 Trinity Way"
+            ],
+            "city": "London",
+            "postalCode": "W3 7JF"
+          }
+        ],
+        "generalPractitioner": {
+          "reference": "Practitioner/203529",
+          "display": "Miss Nichole Gilbert"
+        },
+        "managingOrganization": {
+          "reference": "Organization/200268",
+          "display": "HSCIC test Practice"
+        }
+      }

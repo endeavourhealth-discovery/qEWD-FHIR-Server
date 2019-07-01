@@ -1,0 +1,70 @@
+{
+        "resourceType": "Patient",
+        "meta": {
+          "versionId": "1469448000000",
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+          ]
+        },
+        "identifier": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSNumberVerificationStatus-1",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "https://fhir.nhs.uk/CareConnect-NHSNumberVerificationStatus-1",
+                      "code": "01",
+                      "display": "Number present and verified"
+                    }
+                  ]
+                }
+              }
+            ],
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "9999999999"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "family": "OLIVER",
+            "given": [
+              "Janice"
+            ],
+            "prefix": [
+              "Ms"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0207 728 8867",
+            "use": "home"
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1960-07-09",
+        "address": [
+          {
+            "use": "home",
+            "type": "physical",
+            "line": [
+              "7 Bayham Street"
+            ],
+            "city": "London",
+            "postalCode": "NW1 0AG"
+          }
+        ],
+        "generalPractitioner": {
+          "reference": "Practitioner/203555",
+          "display": "Ms Nancy Brown"
+        },
+        "managingOrganization": {
+          "reference": "Organization/200222",
+          "display": "HSCIC test Practice"
+        }
+      }

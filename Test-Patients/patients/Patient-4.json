@@ -1,0 +1,78 @@
+{
+                "resourceType": "Patient",
+                "identifier": [
+                    {
+                        "extension": [
+                            {
+                                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1",
+                                            "code": "01",
+                                            "display": "Number present and verified"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "9657702496"
+                    },
+                    {
+                        "system": "http://ychr.fhir.nhs.uk/Id/medical-record- number",
+                        "value": "RA400900"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Moxey",
+                        "given": [
+                            "Jim"
+                        ],
+                        "prefix": [
+                            "Mr"
+                        ]
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "1985-08-25",
+                "address": [
+                    {
+                        "use": "home",
+                        "type": "physical"
+                    }
+                ],
+                "maritalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/v3/MaritalStatus",
+                            "code": "S",
+                            "display": "Never Married"
+                        }
+                    ]
+                },
+                "generalPractitioner": [
+                    {
+                        "reference": "Practitioner/203529",
+                        "display": "Miss Nichole Gilbert"
+                    }
+                ],
+                "managingOrganization": {
+                    "reference": "Organization/200268",
+                    "display": "HSCIC test Practice"
+                },
+                "meta": {
+                    "versionId": 1,
+                    "lastUpdated": "2019-03-17T19:37:21.955Z",
+                    "tag": [
+                        {
+                            "system": "https://lcl-fhir-proxy.yhcr.nhs.uk/Source",
+                            "code": "LocalDB",
+                            "display": "LocalDB"
+                        }
+                    ]
+                }
+            }

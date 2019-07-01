@@ -1,0 +1,17 @@
+{
+        "resourceType": "AllergyIntolerance",
+        "code": {
+          "coding": [
+            {
+              "display": "Hayfever, allergy to pollen",
+              "code": "21719001",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "clinicalStatus": "inactive",
+        "patient": {
+          "reference": "Patient/9314739d-6ab6-4caa-a820-15931023efcd"
+        },
+        "assertedDate": "1963-06-02"
+      }

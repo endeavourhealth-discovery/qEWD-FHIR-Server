@@ -1,0 +1,46 @@
+{
+				"resourceType": "MedicationStatement",
+				"meta": {
+					"profile": [
+						"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+					]
+				},
+				"extension": [
+					{
+						"url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
+						"valueDateTime": "2018-08-27"
+					},
+					{
+						"url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+						"valueCodeableConcept": {
+							"coding": [
+								{
+									"system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+									"code": "prescribed-at-gp-practice",
+									"display": "Prescribed at GP practice"
+								}
+							]
+						}
+					}
+				],
+				"basedOn": {
+					"reference": "MedicationRequest/68"
+				},
+				"status": "completed",
+				"medicationReference": {
+					"reference": "Medication/24",
+					"display": "Lantus 100units/ml solution for injections 3ml pre-filled solostar pen"
+				},
+				"effectiveDateTime": "2018-01-15",
+				"dateAsserted": "2018-01-15",
+				"subject": {
+					"reference": "Patient/9314739d-6ab6-4caa-a820-15931023efcd"
+				},
+				"taken": "unk",
+				"dosage": [
+					{
+						"patientInstruction": "Night/nocte",
+						"text": "As directed"
+					}
+				]
+			}

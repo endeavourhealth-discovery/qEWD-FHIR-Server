@@ -1,0 +1,17 @@
+{
+        "resourceType": "AllergyIntolerance",
+        "code": {
+          "coding": [
+            {
+              "display": "Allergy to Penicillin, Patient experienced rash, nausea and vomiting",
+              "code": "91936005",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "clinicalStatus": "active",
+        "patient": {
+          "reference": "Patient/9314739d-6ab6-4caa-a820-15931023efcd"
+        },
+        "assertedDate": "2016-03-15"
+      }
